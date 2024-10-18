@@ -1,0 +1,37 @@
+body {
+  position: relative; 
+}
+
+header {
+  text-align: center;
+  
+}
+
+section {
+  display: flex; 
+  justify-content: center; 
+}
+
+#hero {
+  /* min-width: 1600px;  */
+  min-height: 700px; 
+  
+}
+
+.button-wrapper {
+  display: inline-flex; 
+  flex-direction: column;
+  gap: 2rem; 
+  position: fixed; 
+  top: 20rem; 
+  left: 15rem;
+}
+
+button {
+  padding: 1rem 6rem; 
+}
+
+.scoreboard {
+  position: absolute;
+  font-size: 2rem;
+}

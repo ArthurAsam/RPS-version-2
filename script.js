@@ -1,8 +1,14 @@
 let playerScore = 0; 
 let computerScore = 0 ; 
+let paraScore = document.createElement('p'); 
+let paraText = document.createElement('p'); 
+let humanSelection; 
+let wrapper = document.querySelector('.button-wrapper'); 
+let scoreBoard = document.querySelector('.scoreboard'); 
+let gameCounter = 0 ; 
 
 
-function getComputerChoice(){
+let computerSelection = function(){
   let randomNumber = Math.floor(Math.random()* 3)
   let computerChoice; 
   if (randomNumber === 0){
@@ -14,62 +20,154 @@ function getComputerChoice(){
   }
 }
 
-function getHumanChoice(){
-  return prompt('Pick a choice between "rock" "paper" or "scissors"', '')
-}; 
+function getPlayerSelection(event){
+  let target = event.target; 
+
+  switch(target.id){
+    case 'rock':
+      console.log('okay cool')
+      humanSelection = target.id
+      playGame(humanSelection, computerSelection())
+      break ; 
+    case 'paper':
+      console.log('okay cool')
+      humanSelection = target.id
+      playGame(humanSelection, computerSelection())
+      break; 
+    case 'scissors':
+      console.log('okay cool')
+      humanSelection = target.id
+      playGame(humanSelection, computerSelection())
+      break; 
+  }
+}
+  
+
+wrapper.addEventListener('click', getPlayerSelection)
+
+
+
+
 
 
 function playGame(humanSelection, computerSelection){
+  
   playRound(humanSelection, computerSelection)
 
   function playRound(humanSelection, computerSelection){
+    ++gameCounter
     if(humanSelection === 'paper' && computerSelection === 'rock'){
      ++playerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log("You Won! Paper beats Rock")
+     
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You won paper beats rock! ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
+     
    
     } else if(humanSelection === 'paper' && computerSelection === 'scissors'){
      ++computerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log("You Lose! Scissors beats Paper")
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You lose scissors beats paper ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
+
     } else if (humanSelection === 'rock' && computerSelection === 'paper'){
      ++computerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log('You Lose! Paper beats Rock')
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You lose paper beats rock ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
+
     } else if(humanSelection === 'rock' && computerSelection === 'scissors'){
      ++playerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log('You Won! Rock beats Scissors')
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You won rock beats scissors ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
+
     } else if(humanSelection === 'scissors' && computerSelection === 'paper'){
      ++playerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log('You Won! Scissors beats Paper')
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You won scissors beat paper ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
+
     } else if(humanSelection === 'scissors' && computerSelection === 'rock'){
      ++computerScore
-     console.log(`Player1: ${playerScore} Computer: ${computerScore}`)
-     console.log('You lose! Rock beats Scissors')
+     paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+     scoreBoard.appendChild(paraScore)
+      paraText.textContent = `You lose rock beats scissors ${gameCounter}`
+     scoreBoard.appendChild(paraText); 
     } else { 
-     console.log('That\'s a draw!')
+      paraScore.textContent = `Player1: ${playerScore} Computer: ${computerScore}`
+      scoreBoard.appendChild(paraScore)
+       paraText.textContent = `That\'s a draw ${gameCounter}`
+      scoreBoard.appendChild(paraText); 
     }
    }
+   if (gameCounter >= 5){
 
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach(button =>{
+      button.disabled = true; 
+    })
+    if (playerScore > computerScore){
+        const finalPara = document.createElement('p'); 
+        finalPara.textContent = 'Player1 Won the Game!'
+        scoreBoard.appendChild(finalPara)
+        setTimeout(() =>{
+          playerScore = 0 ; 
+          computerScore = 0
+          scoreBoard.remove(paraScore); 
+          scoreBoard.remove(paraText); 
+          scoreBoard.remove (finalPara)
+          wrapper.removeEventListener('click', getPlayerSelection)
+          gameCounter = 0
+          location.reload()
+        }, 7000)
+      } else if (computerScore > playerScore){
+        const finalPara = document.createElement('p'); 
+        finalPara.textContent = 'Computer Won the Game!'
+        scoreBoard.appendChild(finalPara)
+        setTimeout(() =>{
+          playerScore = 0 ; 
+          computerScore = 0
+          scoreBoard.remove(paraScore); 
+          scoreBoard.remove(paraText); 
+          scoreBoard.remove (finalPara)
+          wrapper.removeEventListener('click', getPlayerSelection)
+          gameCounter = 0
+          location.reload()
+        }, 7000)
+       } else {
+        const finalPara = document.createElement('p'); 
+        finalPara.textContent = 'It is a tie game!'
+        scoreBoard.appendChild(finalPara)
+        setTimeout(() =>{
+          playerScore = 0 ; 
+          computerScore = 0
+          scoreBoard.remove(paraScore); 
+          scoreBoard.remove(paraText); 
+          scoreBoard.remove (finalPara)
+          wrapper.removeEventListener('click', getPlayerSelection)
+          gameCounter = 0
+          location.reload()
+        }, 7000)
+       }
+
+
+       
+   } 
   
 }
 
-for (let i = 0; i < 5; i++){
-  let humanSelection = getHumanChoice()
-  let computerSelection = getComputerChoice()
-  playGame(humanSelection, computerSelection)
-  
- }
 
- console.log(`Final score; Player1: ${playerScore} | Computer: ${computerScore}`)
- if (playerScore > computerScore){
-  console.log('Player1 Won the Game!')
- } else if (computerScore > playerScore){
-  console.log('Computer Won the Game!')
- } else  {
-  console.log('It\'s a tie match!')
- }
- playerScore = 0 ; 
- computerScore = 0
+// for (let i = 0; i < 5; i++){
+//   let computerSelection = getComputerChoice()
+//   playGame(humanSelection, computerSelection)
+  
+//  }
+
+//  console.log(`Final score; Player1: ${playerScore} | Computer: ${computerScore}`)
+//  
